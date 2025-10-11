@@ -1,36 +1,35 @@
-# S3 CSV Data Processing Lambda
+# Automated S3 Data Pipeline
 
 ## Overview
 
-This AWS Lambda function automatically processes CSV files uploaded to an S3 bucket, generates a report, saves it back to S3, and sends notifications via SNS.
-
-The project is organized in a modular structure for maintainability and ease of testing.
+This project demonstrates a production-ready serverless architecture that automatically processes files uploaded to Amazon S3. The pipeline handles both structured data (CSV) and images, performing intelligent processing based on file type.
 
 ## **Features**
 
-- Automatically triggered when a CSV file is uploaded to the `uploads/` folder in S3.
-- Validates that only CSV files in the correct folder are processed.
-- Parses CSV data and extracts column names and row count.
-- Generates a formatted text report including a sample of the first 5 rows.
-- Saves the report to a `processed/` folder in S3.
-- Sends a success/failure notification via AWS SNS.
+✅ Dual File Type Support: Automatically detects and processes CSV files and images
+✅ CSV Processing: Parses data, generates statistics, and creates formatted reports
+✅ Image Resizing: Creates multiple optimized versions (thumbnail, medium, large)
+✅ Real-time Notifications: Instant email alerts via Amazon SNS
+✅ Serverless Architecture: Zero server management, infinite scalability
+✅ Cost Effective: Pay-per-execution pricing (AWS Free Tier compatible)
+✅ Production Ready: Includes error handling, logging, and monitoring
 
 ---
 
 ## **Project Structure**
 
 ```
-s3-data-pipeline/
-│
-├── lambda_function.py        # Lambda entry point
-├── processor/
-│   ├── __init__.py
-│   ├── s3_handler.py         # S3 upload/download logic
-│   ├── csv_processor.py      # CSV parsing and utilities
-│   ├── report_generator.py   # Report generation logic
-│   └── sns_notifier.py       # SNS notification logic
-├── requirements.txt          # Python dependencies
-└── README.md
+User Upload → S3 Bucket (uploads/) → Lambda Function → Process File → S3 (processed/) → SNS → Email
+                  ↓
+            Event Trigger
+                  ↓
+         [File Type Detection]
+                  ↓
+        ┌─────────┴─────────┐
+        ↓                   ↓
+   CSV Processor      Image Processor
+        ↓                   ↓
+   Text Report       Resized Images (3 sizes)
 ```
 
 ---
@@ -68,20 +67,6 @@ pip install -r requirements.txt
 2. Lambda triggers automatically.
 3. Processed report is saved to `processed/<filename>_report.txt`.
 4. SNS notification is sent with processing details.
-
----
-
-## **Example Flow**
-
-```
-uploads/my_data.csv  --> Lambda triggered
-   ↓
-  CSV parsed, rows counted
-   ↓
-  Report generated and saved to S3
-   ↓
-  SNS notification sent
-```
 
 ---
 
