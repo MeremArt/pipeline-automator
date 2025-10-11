@@ -4,3 +4,7 @@ IMAGE_SIZES = {
     'medium': (500, 500),
     'large': (1200, 1200)
 }
+
+MAX_CSV_ROWS = 10000
+IMAGE_QUALITY = 90
+REPORT_PREVIEW_ROWS = 5
